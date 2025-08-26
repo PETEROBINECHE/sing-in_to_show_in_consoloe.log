@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import "./Colorbox.css"
 
 const Colorbox = () => {
@@ -16,7 +16,22 @@ const Colorbox = () => {
         {id: 10, name: "Gray", bg: "Gray"},
     ])
 
-    const [bgcolor, setBgcolor] = useState("null")
+    const [bgcolor, setBgcolor] = useState(null)
+
+    const timeout = useRef (null)
+
+    const settime = (color)=>{
+        setBgcolor(color)
+
+        if (timeout.current){
+            clearTimeout(timeout.current)
+        }
+
+        timeout.current = setTimeout(()=> {
+            setBgcolor(null)
+        }, 10000);
+    };
+
 
     // const [color, setColor] = useState ("null")
     // const [color1, setColor1] = useState ("null")
@@ -35,7 +50,7 @@ const Colorbox = () => {
         <div className="color_rapper">
             <div className="packcolor_btn">
                 {listcolor?.map((item)=> (
-                    <button className='color_btn' key={item.id} onClick={()=> setBgcolor(item.bg)} style={{background: item.bg, color: item.bg === "Black"?("white"):("Black")}}>{item.name}</button>
+                    <button className='color_btn' key={item.id} onClick={()=> settime(item.bg)} style={{background: item.bg, color: item.bg === "Black"?("white"):("Black")}}>{item.name}</button>
                 ))}
                 
 
